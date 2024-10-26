@@ -158,7 +158,7 @@ function myachievements_install()
 	  `numposts` int(10) NOT NULL DEFAULT 0,
 	  `image` varchar(250) NOT NULL DEFAULT '',
 	  PRIMARY KEY  (`apid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myachievements_numthreads` (
 	  `atid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -167,7 +167,7 @@ function myachievements_install()
 	  `numthreads` int(10) NOT NULL DEFAULT 0,
 	  `image` varchar(250) NOT NULL DEFAULT '',
 	  PRIMARY KEY  (`atid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myachievements_activity` (
 	  `aaid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -179,7 +179,7 @@ function myachievements_install()
 	  `days` int(5) NOT NULL DEFAULT 0,
 	  `image` varchar(250) NOT NULL DEFAULT '',
 	  PRIMARY KEY  (`aaid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myachievements_custom` (
 	  `acid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -187,7 +187,7 @@ function myachievements_install()
 	  `description` varchar(200) NOT NULL DEFAULT '',
 	  `image` varchar(250) NOT NULL DEFAULT '',
 	  PRIMARY KEY  (`acid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myachievements_points` (
 	  `apoid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -196,7 +196,7 @@ function myachievements_install()
 	  `image` varchar(250) NOT NULL DEFAULT '',
 	  `points` int(10) NOT NULL DEFAULT 0,
 	  PRIMARY KEY  (`apoid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myachievements_log` (
 	  `lid` bigint(30) UNSIGNED NOT NULL auto_increment,
@@ -206,7 +206,7 @@ function myachievements_install()
 	  `date` int(10) NOT NULL DEFAULT 0,
 	  `data` varchar(255) NOT NULL DEFAULT '',
 	  PRIMARY KEY  (`lid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myachievements_ranks` (
 	  `rid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -220,7 +220,7 @@ function myachievements_install()
 	  `achievements_apoid` int(10) NOT NULL DEFAULT 0,
 	  `level` int(10) NOT NULL DEFAULT 0,
 	  PRIMARY KEY  (`rid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("ALTER TABLE `".TABLE_PREFIX."users` ADD `myachievements` TEXT NOT NULL;");
 	$db->write_query("ALTER TABLE `".TABLE_PREFIX."users` ADD `myachievements_rank` TEXT NOT NULL;");

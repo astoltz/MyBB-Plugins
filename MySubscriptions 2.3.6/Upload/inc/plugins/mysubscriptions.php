@@ -200,7 +200,7 @@ USD= US Dollars",
 	  `enabled` tinyint(1) UNSIGNED NOT NULL default '0',
 	  `disporder` smallint(5) UNSIGNED NOT NULL default '0',
 	  PRIMARY KEY  (`sid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."mysubscriptions_log` (
 		`lid` bigint(30) UNSIGNED NOT NULL auto_increment,
@@ -294,7 +294,7 @@ USD= US Dollars",
 		`email` tinyint(1) not null default 0,
 		`frozen` int(10) not null default 0,
 		PRIMARY KEY  (`lid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 		$db->write_query("CREATE TABLE `".TABLE_PREFIX."mysubscriptions_coinpayments_log` (
 		`lid` bigint(30) UNSIGNED NOT NULL auto_increment,
@@ -330,7 +330,7 @@ USD= US Dollars",
 		`email` tinyint(1) not null default 0,
 		`frozen` int(10) not null default 0,
 		PRIMARY KEY  (`lid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 		// create task
 		$new_task = array(

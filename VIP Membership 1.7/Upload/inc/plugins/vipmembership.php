@@ -134,7 +134,7 @@ function vipmembership_activate()
 	  `alerted` smallint(1) UNSIGNED NOT NULL default '0',
 	  `note` text NOT NULL,
 	  PRIMARY KEY  (`mid`), KEY(`date`, `expired`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	// create task
 	$new_task = array(

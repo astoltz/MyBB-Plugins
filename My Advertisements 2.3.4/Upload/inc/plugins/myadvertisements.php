@@ -135,7 +135,7 @@ function myadvertisements_install()
 	  `postbit_type` smallint(1) UNSIGNED NOT NULL default '1',
 	  `postbit_xposts` int(10) UNSIGNED NOT NULL default '0',
 	  PRIMARY KEY (`zid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."myadvertisements_advertisements` (
 	  `aid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -155,7 +155,7 @@ function myadvertisements_install()
 	  `disabled` tinyint(1) UNSIGNED NOT NULL default '0',
 	  `email` tinyint(1) UNSIGNED NOT NULL default '0',
 	  PRIMARY KEY (`aid`), INDEX(`expire`,`unlimited`,`email`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	// insert 3 defaults zones (header, footer and postbit)
 	$db->insert_query('myadvertisements_zones', array('name' => "Header", 'description' => "Ads in this zone will be displayed in the header.")); // 1

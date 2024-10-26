@@ -189,7 +189,7 @@ USD= US Dollars",
 		`goal_description` varchar(200) NOT NULL default '',
 		`hidelist` tinyint(1) NOT NULL default 0,
 		PRIMARY KEY  (did)
-	) ENGINE=MyISAM;");
+	) ENGINE=InnoDB;");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."mydonations_archive` (
 		`aid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -231,7 +231,7 @@ USD= US Dollars",
 		`goal_amount` DECIMAL(9,2) NOT NULL default '0',
 		`goal_description` varchar(200) NOT NULL default '',
 		PRIMARY KEY  (aid)
-	) ENGINE=MyISAM;");
+	) ENGINE=InnoDB;");
 
 }
 

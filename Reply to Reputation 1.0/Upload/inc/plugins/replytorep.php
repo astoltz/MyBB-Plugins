@@ -99,7 +99,7 @@ negneu=Negative and Neutral",
 	  `message` varchar(255) NOT NULL default '',
 	  `time` int(10) UNSIGNED NOT NULL,
 	  PRIMARY KEY (`rid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 }
 
 function replytorep_activate()

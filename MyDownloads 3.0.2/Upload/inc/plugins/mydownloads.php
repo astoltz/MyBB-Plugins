@@ -654,7 +654,7 @@ USD= US Dollars",
 		  `parent` int(10) UNSIGNED NOT NULL default '0',
 		  `background` varchar(255) NOT NULL default '',
 		  PRIMARY KEY  (`cid`), INDEX(`name`,`disporder`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 
@@ -669,7 +669,7 @@ USD= US Dollars",
 		  `type` smallint(1) UNSIGNED NOT NULL default '0',
 		  `rating` smallint(5) UNSIGNED NOT NULL default '0',
 		  PRIMARY KEY  (`lid`), INDEX(`date`,`did`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_downloads"))
@@ -703,7 +703,7 @@ USD= US Dollars",
 		  `tags` varchar(255) NOT NULL default '',
 		  `banner` varchar(255) NOT NULL default '',
 		  PRIMARY KEY  (`did`), INDEX(`name`,`date`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_paypal_logs"))
@@ -746,7 +746,7 @@ USD= US Dollars",
 			`verify_sign` varchar(128) default NULL,
 			`downloaded` smallint(1) NOT NULL default 0,
 			PRIMARY KEY  (lid)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_submissions"))
@@ -779,7 +779,7 @@ USD= US Dollars",
 		  `tags` varchar(255) NOT NULL default '',
 		  `banner` varchar(255) NOT NULL default '',
 		  PRIMARY KEY (`sid`), KEY(`update_did`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_ratings"))
@@ -791,7 +791,7 @@ USD= US Dollars",
 		  `ipaddress` varchar(30) NOT NULL default '',
 		  `uid` bigint(30) UNSIGNED NOT NULL default '0',
 		  PRIMARY KEY  (`rid`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_comments"))
@@ -805,7 +805,7 @@ USD= US Dollars",
 		  `username` varchar(100) NOT NULL default '',
 		  `date` bigint(30) UNSIGNED NOT NULL default '0',
 		  PRIMARY KEY  (`cid`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_reports"))
@@ -820,7 +820,7 @@ USD= US Dollars",
 		  `marked` tinyint(1) NOT NULL DEFAULT 0,
 		  `name` varchar(100) NOT NULL default '',
 		  PRIMARY KEY  (`rid`), KEY(`date`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 
 	if(!$db->table_exists("mydownloads_tags"))
@@ -831,7 +831,7 @@ USD= US Dollars",
 		  `color` varchar(7) NOT NULL DEFAULT '',
 		  `categories` text,
 		  PRIMARY KEY  (`tid`), KEY(`tag`)
-			) ENGINE=MyISAM{$collation}");
+			) ENGINE=InnoDB{$collation}");
 	}
 }
 

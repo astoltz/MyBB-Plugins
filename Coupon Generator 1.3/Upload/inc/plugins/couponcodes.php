@@ -190,7 +190,7 @@ function couponcodes_activate()
 	  `winlimit` int(5) NOT NULL DEFAULT 0,
 	  `waitlimit` bigint(30) NOT NULL DEFAULT 0,
 	  PRIMARY KEY  (`lid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."couponcodes_coupons` (
 	  `cid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -200,7 +200,7 @@ function couponcodes_activate()
 	  `code` varchar(200) NOT NULL DEFAULT '',
 	  `used` tinyint(1) NOT NULL DEFAULT 0,
 	  PRIMARY KEY  (`cid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 }
 
 

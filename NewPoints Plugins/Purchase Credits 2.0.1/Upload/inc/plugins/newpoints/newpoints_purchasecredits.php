@@ -63,7 +63,7 @@ function newpoints_purchasecredits_install()
 	  `payment_payza` tinyint(1) NOT NULL default 0,
 	  `payment_coinpayments` tinyint(1) NOT NULL default 0,
 	  PRIMARY KEY  (`pid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_purchasecredits_log_ap` (
 		`lid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -79,7 +79,7 @@ function newpoints_purchasecredits_install()
 		`date` varchar(55) NOT NULL default '',
 		`transaction_type` varchar(55) NOT NULL default '',
 		PRIMARY KEY  (`lid`)
-	) ENGINE=MyISAM{$collation}");
+	) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_purchasecredits_log_pp` (
 		`lid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -118,7 +118,7 @@ function newpoints_purchasecredits_install()
 		`notify_version` varchar(10) default NULL,
 		`verify_sign` varchar(128) default NULL,
 		PRIMARY KEY  (lid)
-	) ENGINE=MyISAM{$collation}");
+	) ENGINE=InnoDB{$collation}");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_purchasecredits_log_cp` (
 		`lid` int(10) UNSIGNED NOT NULL auto_increment,
@@ -147,7 +147,7 @@ function newpoints_purchasecredits_install()
 		`custom` int(10) UNSIGNED NOT NULL default '0',
 		`date` int(10) NOT NULL default 0,
 		PRIMARY KEY  (lid)
-	) ENGINE=MyISAM{$collation}");
+	) ENGINE=InnoDB{$collation}");
 
 	// add settings
 	newpoints_add_setting('newpoints_purchasecredits_paypal', 'newpoints_purchasecredits', 'PayPal Email', 'Enter the email of your PayPal account.', 'text', '', 1);

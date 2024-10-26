@@ -253,14 +253,14 @@ function mychatbox_install()
 		`timestamp` int(10) NOT NULL,
 		`status` tinyint(1) NOT NULL default '1',
 		PRIMARY KEY  (id)
-	) ENGINE=MyISAM;");
+	) ENGINE=InnoDB;");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."mychatbox_banned` (
 		`bid` int(10) UNSIGNED NOT NULL auto_increment,
 		`uid` bigint(30) UNSIGNED NOT NULL,
 		`reason` varchar(255) NOT NULL default '',
 		PRIMARY KEY (bid), INDEX(`uid`)
-	) ENGINE=MyISAM;");
+	) ENGINE=InnoDB;");
 }
 
 function mychatbox_activate()
