@@ -1562,6 +1562,8 @@ function newpoints_shop_admin()
 					$expanded = intval($mybb->input['expanded']);
 
 					$update_query = array('name' => $name, 'description' => $description, 'usergroups' => $usergroups, 'visible' => $visible, 'disporder' => $disporder, 'icon' => $icon, 'expanded' => $expanded);
+					if ($icon == '')
+						unset($update_query['icon']);
 					$db->update_query('newpoints_shop_categories', $update_query, 'cid=\''.$cid.'\'');
 
 					newpoints_shop_messageredirect($lang->newpoints_shop_cat_edited);
@@ -1696,6 +1698,8 @@ function newpoints_shop_admin()
 					}
 
 					$update_array = array('name' => $name, 'description' => $description, 'icon' => ($icon != '' ? $icon : $db->escape_string($item['icon'])), 'visible' => $visible, 'disporder' => $disporder, 'price' => $price, 'infinite' => $infinite, 'stock' => $stock, 'limit' => $limit, 'sendable' => $sendable, 'sellable' => $sellable, 'cid' => $cid, 'pm' => $pm, 'pmadmin' => $pmadmin);
+					if ($icon == '')
+						unset($update_array['icon']);
 
 					$plugins->run_hooks("newpoints_shop_commit", $update_array);
 
