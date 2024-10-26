@@ -88,7 +88,7 @@ function mypermissions_activate()
 	  `description` varchar(300) NOT NULL default '',
 	  `usergroups` varchar(300) NOT NULL default '',
 	  PRIMARY KEY  (`aid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 }
 
 

@@ -108,7 +108,7 @@ function newpoints_shop_install()
 	  `items` int(10) NOT NULL default '0',
 	  `expanded` smallint(1) NOT NULL default '1',
 	  PRIMARY KEY  (`cid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_shop_items` (
 	  `iid` bigint(30) UNSIGNED NOT NULL auto_increment,
@@ -127,7 +127,7 @@ function newpoints_shop_install()
 	  `pm` text NOT NULL,
 	  `pmadmin` text NOT NULL,
 	  PRIMARY KEY  (`iid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	rebuild_settings();
 }

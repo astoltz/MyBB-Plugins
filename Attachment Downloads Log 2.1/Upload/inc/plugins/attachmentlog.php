@@ -170,7 +170,7 @@ function attachmentlog_install()
 	  `atname` varchar(255) NOT NULL default '',
 	  `username` varchar(100) NOT NULL default '',
 	  PRIMARY KEY  (`lid`), KEY(`date`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 }
 
 function attachmentlog_activate()

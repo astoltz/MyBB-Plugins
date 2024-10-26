@@ -49,7 +49,7 @@ $db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_purchasecredits_log_cp
 		`custom` int(10) UNSIGNED NOT NULL default '0',
 		`date` int(10) NOT NULL default 0,
 		PRIMARY KEY  (lid)
-	) ENGINE=MyISAM");
+	) ENGINE=InnoDB");
 echo "Done!<br />";
 
 echo "Creating new setting...";

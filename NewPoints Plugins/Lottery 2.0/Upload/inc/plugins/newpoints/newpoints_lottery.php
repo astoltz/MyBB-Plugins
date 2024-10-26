@@ -49,7 +49,7 @@ function newpoints_lottery_install()
 	  `uid` bigint(30) unsigned NOT NULL default '0',
 	  `dateline` bigint(30) unsigned NOT NULL default '0',
 	  PRIMARY KEY  (`ticket_id`), KEY (`uid`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_lottery_term` (
 	  `term_id` int(10) UNSIGNED NOT NULL auto_increment,
@@ -60,7 +60,7 @@ function newpoints_lottery_install()
 	  `start_time` bigint(30) unsigned NOT NULL default '0',
 	  `end_time` bigint(30) unsigned NOT NULL default '0',
 	  PRIMARY KEY  (`term_id`)
-		) ENGINE=MyISAM");
+		) ENGINE=InnoDB");
 
 	rebuild_settings();
 

@@ -84,7 +84,7 @@ function newpoints_subscriptions_install()
 	  `additional` tinyint(1) UNSIGNED NOT NULL default '0',
 	  `enabled` tinyint(1) UNSIGNED NOT NULL default '1',
 	  PRIMARY KEY  (`sid`)
-		) ENGINE=MyISAM{$collation}");
+		) ENGINE=InnoDB{$collation}");
 
 	// create task
 	$new_task = array(

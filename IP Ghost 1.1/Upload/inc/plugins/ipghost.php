@@ -56,7 +56,7 @@ function ipghost_install()
 		`id` int(10) UNSIGNED NOT NULL auto_increment,
 		`uid` bigint(30) UNSIGNED NOT NULL,
 		PRIMARY KEY (id), INDEX(`uid`)
-	) ENGINE=MyISAM;");
+	) ENGINE=InnoDB;");
 }
 
 function ipghost_is_installed()

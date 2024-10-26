@@ -127,7 +127,7 @@ function hidecontent_install()
 		  `uid` int(10) NOT NULL,
 		  `pid` bigint(10) NOT NULL,
 		  PRIMARY KEY  (`id`), INDEX(`uid`), INDEX(`pid`)
-			) ENGINE=MyISAM");
+			) ENGINE=InnoDB");
 	}
 }
 
