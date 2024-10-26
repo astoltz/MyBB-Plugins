@@ -82,7 +82,7 @@ function newpoints_shop_info()
 function newpoints_shop_install()
 {
 	global $db;
-	$db->write_query("ALTER TABLE `".TABLE_PREFIX."users` ADD `newpoints_items` TEXT NOT NULL;");
+	$db->write_query("ALTER TABLE `".TABLE_PREFIX."users` ADD `newpoints_items` TEXT;");
 	$db->write_query("ALTER TABLE `".TABLE_PREFIX."newpoints_grouprules` ADD `items_rate` DECIMAL(6,3) NOT NULL default 1.000;");
 
 	// add settings
