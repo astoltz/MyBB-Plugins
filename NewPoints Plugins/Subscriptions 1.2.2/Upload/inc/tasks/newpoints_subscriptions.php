@@ -5,7 +5,7 @@
  *	 Author: Pirata Nervo
  *   Copyright: © 2009-2011 Pirata Nervo
  *   
- *   Website: http://www.mybb-plugins.com
+ *   Website: https://github.com/DiogoParrinha
  *
  *   Integrates a subscriptions system with NewPoints.
  *

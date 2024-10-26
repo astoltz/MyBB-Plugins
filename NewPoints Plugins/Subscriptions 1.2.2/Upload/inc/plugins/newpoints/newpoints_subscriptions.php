@@ -5,7 +5,7 @@
  *	 Author: Pirata Nervo
  *   Copyright: � 2014 Pirata Nervo
  *
- *   Website: http://www.mybb-plugins.com
+ *   Website: https://github.com/DiogoParrinha
  *
  *   Integrates a subscriptions system with NewPoints.
  *
@@ -55,9 +55,9 @@ function newpoints_subscriptions_info()
 	return array(
 		"name"			=> "Subscriptions",
 		"description"	=> "An advanced subscriptions system for NewPoints.",
-		"website"		=> "http://www.mybb-plugins.com",
+		"website"		=> "https://github.com/DiogoParrinha",
 		"author"		=> "Pirata Nervo",
-		"authorsite"	=> "http://www.mybb-plugins.com",
+		"authorsite"	=> "https://github.com/DiogoParrinha",
 		"version"		=> "1.2.2",
 		"guid" 			=> "",
 		"compatibility" => "2*"

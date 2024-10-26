@@ -5,7 +5,7 @@
  *	 Author: Diogo Parrinha
  *   Copyright: © 2009-2012 Diogo Parrinha
  *   
- *   Website: http://www.mybb-plugins.com
+ *   Website: https://github.com/DiogoParrinha
  *
  *   Integrates a shop system with NewPoints.
  *

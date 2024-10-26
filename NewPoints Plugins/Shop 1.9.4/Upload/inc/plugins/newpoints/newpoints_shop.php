@@ -5,7 +5,7 @@
  *	 Author: Diogo Parrinha
  *   Copyright: (c) 2014 Diogo Parrinha
  *
- *   Website: http://www.mybb-plugins.com
+ *   Website: https://github.com/DiogoParrinha
  *
  *   Integrates a shop system with NewPoints.
  *
@@ -70,9 +70,9 @@ function newpoints_shop_info()
 	return array(
 		"name"			=> "Shop",
 		"description"	=> "Integrates a shop system with NewPoints.",
-		"website"		=> "http://www.mybb-plugins.com",
+		"website"		=> "https://github.com/DiogoParrinha",
 		"author"		=> "Diogo Parrinha",
-		"authorsite"	=> "http://www.mybb-plugins.com",
+		"authorsite"	=> "https://github.com/DiogoParrinha",
 		"version"		=> "1.9.4",
 		"guid" 			=> "",
 		"compatibility" => "2*"

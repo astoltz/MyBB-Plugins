@@ -5,7 +5,7 @@
  *	 Author: Pirata Nervo
  *   Copyright: © 2009-2012 Pirata Nervo
  *   
- *   Website: http://www.mybb-plugins.com
+ *   Website: https://github.com/DiogoParrinha
  *
  *   Upgrade file to upgrade NewPoints Shop 1.8 to NewPoints Shop 1.9
  *
