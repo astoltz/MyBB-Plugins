@@ -1561,9 +1561,15 @@ function newpoints_shop_admin()
 					$disporder = intval($mybb->input['disporder']);
 					$expanded = intval($mybb->input['expanded']);
 
-					$update_query = array('name' => $name, 'description' => $description, 'usergroups' => $usergroups, 'visible' => $visible, 'disporder' => $disporder, 'icon' => $icon, 'expanded' => $expanded);
-					if ($icon == '')
-						unset($update_query['icon']);
+					$update_query = array('name' => $name, 'description' => $description, 'usergroups' => $usergroups, 'visible' => $visible, 'disporder' => $disporder, 'expanded' => $expanded);
+					if (!empty($icon))
+					{
+						$update_query['icon'] = $icon;
+					}
+					else if ($mybb->input['remove_icon'] == '1')
+					{
+						$update_query['icon'] = '';
+					}
 					$db->update_query('newpoints_shop_categories', $update_query, 'cid=\''.$cid.'\'');
 
 					newpoints_shop_messageredirect($lang->newpoints_shop_cat_edited);
@@ -1697,9 +1703,15 @@ function newpoints_shop_admin()
 						newpoints_shop_messageredirect($lang->newpoints_shop_invalid_cat, 1);
 					}
 
-					$update_array = array('name' => $name, 'description' => $description, 'icon' => ($icon != '' ? $icon : $db->escape_string($item['icon'])), 'visible' => $visible, 'disporder' => $disporder, 'price' => $price, 'infinite' => $infinite, 'stock' => $stock, 'limit' => $limit, 'sendable' => $sendable, 'sellable' => $sellable, 'cid' => $cid, 'pm' => $pm, 'pmadmin' => $pmadmin);
-					if ($icon == '')
-						unset($update_array['icon']);
+					$update_array = array('name' => $name, 'description' => $description, 'visible' => $visible, 'disporder' => $disporder, 'price' => $price, 'infinite' => $infinite, 'stock' => $stock, 'limit' => $limit, 'sendable' => $sendable, 'sellable' => $sellable, 'cid' => $cid, 'pm' => $pm, 'pmadmin' => $pmadmin);
+					if (!empty($icon))
+					{
+						$update_array['icon'] = $icon;
+					}
+					else if ($mybb->input['remove_icon'] == '1')
+					{
+						$update_array['icon'] = '';
+					}
 
 					$plugins->run_hooks("newpoints_shop_commit", $update_array);
 
@@ -2040,6 +2052,11 @@ function newpoints_shop_admin()
 			$form_container->output_row($lang->newpoints_shop_addedit_cat_name."<em>*</em>", $lang->newpoints_shop_addedit_cat_name_desc, $form->generate_text_box('name', htmlspecialchars_uni($cat['name']), array('id' => 'name')), 'name');
 			$form_container->output_row($lang->newpoints_shop_addedit_cat_description, $lang->newpoints_shop_addedit_cat_description_desc, $form->generate_text_box('description', htmlspecialchars_uni($cat['description']), array('id' => 'description')), 'description');
 			$form_container->output_row($lang->newpoints_shop_addedit_cat_visible, $lang->newpoints_shop_addedit_cat_visible_desc, $form->generate_yes_no_radio('visible', intval($cat['visible'])), 'visible');
+			if ($cat['icon'])
+			{
+				$cat_icon = '<img src="'.$mybb->settings['bburl'].'/'.htmlspecialchars_uni($cat['icon']).'" style="width: 126px; height: 126px"><br />';
+				$form_container->output_row($lang->newpoints_shop_addedit_cat_remove_icon, $lang->newpoints_shop_addedit_cat_remove_icon_desc, $cat_icon.$form->generate_check_box("remove_icon", 1, "<strong>{$lang->newpoints_shop_addedit_cat_remove_icon_checkbox}</strong>"));
+			}
 			$form_container->output_row($lang->newpoints_shop_addedit_cat_icon, $lang->newpoints_shop_addedit_cat_icon_desc, $form->generate_file_upload_box("icon", array('style' => 'width: 200px;')), 'icon');
 			$form_container->output_row($lang->newpoints_shop_addedit_cat_usergroups, $lang->newpoints_shop_addedit_cat_usergroups_desc, $form->generate_select_box('usergroups[]', $options, explode(',', $cat['usergroups']), array('id' => 'usergroups', 'multiple' => true, 'size' => 5)), 'groups');
 			$form_container->output_row($lang->newpoints_shop_addedit_cat_disporder, $lang->newpoints_shop_addedit_cat_disporder_desc, $form->generate_text_box('disporder', intval($cat['disporder']), array('id' => 'disporder')), 'disporder');
@@ -2177,6 +2194,11 @@ function newpoints_shop_admin()
 			$form_container->output_row($lang->newpoints_shop_addedit_item_name."<em>*</em>", $lang->newpoints_shop_addedit_item_name_desc, $form->generate_text_box('name', htmlspecialchars_uni($item['name']), array('id' => 'name')), 'name');
 			$form_container->output_row($lang->newpoints_shop_addedit_item_description, $lang->newpoints_shop_addedit_item_description_desc, $form->generate_text_box('description', htmlspecialchars_uni($item['description']), array('id' => 'description')), 'description');
 			$form_container->output_row($lang->newpoints_shop_addedit_item_price, $lang->newpoints_shop_addedit_item_price_desc, $form->generate_text_box('price', floatval($item['price']), array('id' => 'price')), 'price');
+			if ($item['icon'])
+			{
+				$item_icon = '<img src="'.$mybb->settings['bburl'].'/'.htmlspecialchars_uni($item['icon']).'" style="width: 126px; height: 126px"><br />';
+				$form_container->output_row($lang->newpoints_shop_addedit_item_remove_icon, $lang->newpoints_shop_addedit_item_remove_icon_desc, $item_icon.$form->generate_check_box("remove_icon", 1, "<strong>{$lang->newpoints_shop_addedit_item_remove_icon_checkbox}</strong>"));
+			}
 			$form_container->output_row($lang->newpoints_shop_addedit_item_icon, $lang->newpoints_shop_addedit_item_icon_desc, $form->generate_file_upload_box("icon", array('style' => 'width: 200px;')), 'icon');
 			$form_container->output_row($lang->newpoints_shop_addedit_item_disporder, $lang->newpoints_shop_addedit_item_disporder_desc, $form->generate_text_box('disporder', intval($item['disporder']), array('id' => 'disporder')), 'disporder');
 			$form_container->output_row($lang->newpoints_shop_addedit_item_stock, $lang->newpoints_shop_addedit_item_stock_desc, $form->generate_text_box('stock', intval($item['stock']), array('id' => 'stock')), 'stock');

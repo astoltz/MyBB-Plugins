@@ -80,6 +80,9 @@ $l['newpoints_shop_addedit_cat_disporder'] = 'Display Order';
 $l['newpoints_shop_addedit_cat_disporder_desc'] = 'Display order of the category.';
 $l['newpoints_shop_addedit_cat_expanded'] = 'Expanded by default';
 $l['newpoints_shop_addedit_cat_expanded_desc'] = 'Do you want the category to be expanded by default?';
+$l['newpoints_shop_addedit_cat_remove_icon'] = 'Current icon';
+$l['newpoints_shop_addedit_cat_remove_icon_desc'] = 'Do you want to remove the existing category icon?';
+$l['newpoints_shop_addedit_cat_remove_icon_checkbox'] = 'Remove category icon?';
 
 // Add/Edit Item
 $l['newpoints_shop_addedit_item_name'] = 'Name';
@@ -112,6 +115,9 @@ $l['newpoints_shop_addedit_item_pmadmin'] = 'Admin Private Message';
 $l['newpoints_shop_addedit_item_pmadmin_desc'] = 'Enter the private message received by admins when users buy this item. Leave to use the default PM.';
 $l['newpoints_shop_infinite'] = 'Infinite';
 $l['newpoints_shop_select_cat'] = 'Select a category';
+$l['newpoints_shop_addedit_item_remove_icon'] = 'Current icon';
+$l['newpoints_shop_addedit_item_remove_icon_desc'] = 'Do you want to remove the existing item icon?';
+$l['newpoints_shop_addedit_item_remove_icon_checkbox'] = 'Remove item icon?';
 
 // Inventory
 $l['newpoints_shop_inventory_of'] = 'Viewing Inventory of ';
