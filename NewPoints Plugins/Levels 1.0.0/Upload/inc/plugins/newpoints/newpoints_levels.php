@@ -700,12 +700,15 @@ function newpoints_levels_page()
             // send PM if item has private message
             if($next_level['pm'] == '' && $mybb->settings['newpoints_levels_pm_default'] != '')
             {
-                $next_level['pm'] = str_replace(array(
-                    '{levelid}','{levelname}','{leveldescription}','{levelprice}',
-                ), array(
-                    $next_level['lid'], $next_level['name'], $next_level['description'], $next_level['price'],
-                ), $mybb->settings['newpoints_levels_pm_default']);
+                $next_level['pm'] = $mybb->settings['newpoints_levels_pm_default'];
             }
+            $next_level['pm'] = str_replace(array(
+                '{levelid}','{levelname}','{leveldescription}','{levelprice}',
+                '{userid}', '{username}', '{usertitle}',
+            ), array(
+                $next_level['lid'], $next_level['name'], $next_level['description'], newpoints_format_points($next_level['price']),
+                $mybb->user['uid'], $mybb->user['username'], $mybb->user['usertitle'],
+            ), $next_level['pm']);
 
             newpoints_send_pm(array('subject' => $lang->newpoints_levels_level_up_pm_subject, 'message' => $next_level['pm'], 'touid' => $mybb->user['uid'], 'receivepms' => 1), -1);
         }
@@ -713,14 +716,17 @@ function newpoints_levels_page()
         if (!empty($next_level['pmadmin']) || $mybb->settings['newpoints_levels_pmadmins'] != '')
         {
             // send PM if item has private message
-            if($next_level['pmadmin'] == '' && $mybb->settings['newpoints_levels_pm_default'] != '')
+            if($next_level['pmadmin'] == '' && $mybb->settings['newpoints_levels_pmadmin_default'] != '')
             {
-                $next_level['pmadmin'] = str_replace(array(
-                    '{levelid}','{levelname}','{leveldescription}','{levelprice}',
-                ), array(
-                    $next_level['lid'], $next_level['name'], $next_level['description'], $next_level['price'],
-                ), $mybb->settings['newpoints_levels_pmadmin_default']);
+                $next_level['pmadmin'] = $mybb->settings['newpoints_levels_pmadmin_default'];
             }
+            $next_level['pmadmin'] = str_replace(array(
+                '{levelid}','{levelname}','{leveldescription}','{levelprice}',
+                '{userid}', '{username}', '{usertitle}',
+            ), array(
+                $next_level['lid'], $next_level['name'], $next_level['description'], newpoints_format_points($next_level['price']),
+                $mybb->user['uid'], $mybb->user['username'], $mybb->user['usertitle'],
+            ), $next_level['pmadmin']);
 
             newpoints_send_pm(array('subject' => $lang->newpoints_levels_level_up_pmadmin_subject, 'message' => $next_level['pmadmin'], 'touid' => array(explode(',', $mybb->settings['newpoints_levels_pmadmins'])), 'receivepms' => 1), $mybb->user['uid']);
         }
