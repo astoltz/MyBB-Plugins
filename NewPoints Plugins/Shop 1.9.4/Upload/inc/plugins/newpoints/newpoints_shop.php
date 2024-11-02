@@ -94,8 +94,8 @@ function newpoints_shop_install()
 	newpoints_add_setting('newpoints_shop_itemsprofile', 'newpoints_shop', 'Items on profile', 'Number of items to show in profile page. Set to 0 to disable this feature.', 'text', '5', 6);
 	newpoints_add_setting('newpoints_shop_itemspostbit', 'newpoints_shop', 'Items on postbit', 'Number of items to show in postbit. Set to 0 to disable this feature.', 'text', '5', 7);
 	newpoints_add_setting('newpoints_shop_pmadmins', 'newpoints_shop', 'PM Admins', 'Enter the user IDs of the users that get PMs whenever an item is bought (separated by a comma).', 'text', '1', 8);
-	newpoints_add_setting('newpoints_shop_pm_default', 'newpoints_shop', 'Default PM', 'Enter the content of the message body that is sent by default to users when they buy an item (note: this PM can be customized for each item; this is used in case one is not present). You can use {itemname} and {itemid}.', 'textarea', '', 9);
-	newpoints_add_setting('newpoints_shop_pmadmin_default', 'newpoints_shop', 'Default Admin PM', 'Enter the content of the message body that is sent by default to admins when a user buys an item (note: this PM can be customized for each item; this is used in case one is not present). You can use {itemname} and {itemid}.', 'textarea', '', 10);
+	newpoints_add_setting('newpoints_shop_pm_default', 'newpoints_shop', 'Default PM', 'Enter the content of the message body that is sent by default to users when they buy an item (note: this PM can be customized for each item; this is used in case one is not present). You can use {itemid}, {itemname}, {itemdescription}, {catid}, {catname}, {catdescription}, {userid}, {username}, {usertitle}.', 'textarea', '', 9);
+	newpoints_add_setting('newpoints_shop_pmadmin_default', 'newpoints_shop', 'Default Admin PM', 'Enter the content of the message body that is sent by default to admins when a user buys an item (note: this PM can be customized for each item; this is used in case one is not present). You can use {itemid}, {itemname}, {itemdescription}, {catid}, {catname}, {catdescription}, {userid}, {username}, {usertitle}.', 'textarea', '', 10);
 
 	$db->write_query("CREATE TABLE `".TABLE_PREFIX."newpoints_shop_categories` (
 	  `cid` bigint(30) UNSIGNED NOT NULL auto_increment,
@@ -610,8 +610,17 @@ function newpoints_shop_page()
 						// send PM if item has private message
 						if($item['pm'] == '' && $mybb->settings['newpoints_shop_pm_default'] != '')
 						{
-							$item['pm'] = str_replace(array('{itemname}', '{itemid}'), array($item['name'], $item['iid']), $mybb->settings['newpoints_shop_pm_default']);
+							$item['pm'] = $mybb->settings['newpoints_shop_pm_default'];
 						}
+						$item['pm'] = str_replace(array(
+							'{itemid}', '{itemname}', '{itemdescription}',
+							'{catid}', '{catname}', '{catdescription}',
+							'{userid}', '{username}', '{usertitle}',
+						), array(
+							$item['iid'], $item['name'], $item['description'],
+							$cat['cid'], $cat['name'], $cat['description'],
+							$mybb->user['uid'], $mybb->user['username'], $mybb->user['usertitle'],
+						), $item['pm']);
 
 						newpoints_send_pm(array('subject' => $lang->newpoints_shop_bought_item_pm_subject, 'message' => $item['pm'], 'touid' => $mybb->user['uid'], 'receivepms' => 1), -1);
 					}
@@ -621,8 +630,17 @@ function newpoints_shop_page()
 						// send PM if item has private message
 						if($item['pmadmin'] == '' && $mybb->settings['newpoints_shop_pm_default'] != '')
 						{
-							$item['pmadmin'] = str_replace(array('{itemname}', '{itemid}'), array($item['name'], $item['iid']), $mybb->settings['newpoints_shop_pmadmin_default']);
+							$item['pmadmin'] = $mybb->settings['newpoints_shop_pmadmin_default'];
 						}
+						$item['pmadmin'] = str_replace(array(
+							'{itemid}', '{itemname}', '{itemdescription}',
+							'{catid}', '{catname}', '{catdescription}',
+							'{userid}', '{username}', '{usertitle}',
+						), array(
+							$item['iid'], $item['name'], $item['description'],
+							$cat['cid'], $cat['name'], $cat['description'],
+							$mybb->user['uid'], $mybb->user['username'], $mybb->user['usertitle'],
+						), $item['pmadmin']);
 
 						newpoints_send_pm(array('subject' => $lang->newpoints_shop_bought_item_pmadmin_subject, 'message' => $item['pmadmin'], 'touid' => array(explode(',', $mybb->settings['newpoints_shop_pmadmins'])), 'receivepms' => 1), $mybb->user['uid']);
 					}
