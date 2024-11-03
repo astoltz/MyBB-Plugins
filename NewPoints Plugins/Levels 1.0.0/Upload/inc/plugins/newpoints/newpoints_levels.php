@@ -46,6 +46,7 @@ if (defined("IN_ADMINCP"))
 }
 else
 {
+    $plugins->add_hook("newpoints_default_menu", "newpoints_levels_menu");
     $plugins->add_hook("member_profile_end", "newpoints_levels_profile");
     $plugins->add_hook("member_profile_start", "newpoints_levels_profile_lang");
 }
@@ -126,7 +127,7 @@ function newpoints_levels_activate()
 {
     global $db, $mybb;
 
-    newpoints_add_template('newpoints_levels_current_level', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+    newpoints_add_template('newpoints_levels_profile_current_level', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
 <tr>
 <td colspan="2" class="thead"><strong>{$lang->newpoints_levels_current_level}</strong>: {$current_level[\'name\']}</td>
 </tr>
@@ -140,7 +141,7 @@ function newpoints_levels_activate()
 </tr>
 </table>');
 
-    newpoints_add_template('newpoints_levels_next_level', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+    newpoints_add_template('newpoints_levels_profile_next_level', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
 <tr>
 <td colspan="2" class="thead"><strong>{$lang->newpoints_levels_next_level}</strong>: {$next_level[\'name\']}</td>
 </tr>
@@ -158,13 +159,13 @@ function newpoints_levels_activate()
 </tr>
 <tr>
 <td class="trow2"><strong>{$lang->newpoints_levels_leveled_up_title}:</strong></td>
-<td class="trow2"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup">Level up</a></td>
+<td class="trow2"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup&amp;return_to=profile">Level up</a></td>
 </tr>
 </table>');
 
-    newpoints_add_template('newpoints_levels_current_level_not_enrolled', '<!-- newpoints_levels_current_level_not_enrolled -->');
+    newpoints_add_template('newpoints_levels_profile_current_level_not_enrolled', '<!-- newpoints_levels_current_level_not_enrolled -->');
 
-    newpoints_add_template('newpoints_levels_next_level_not_enrolled', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+    newpoints_add_template('newpoints_levels_profile_next_level_not_enrolled', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
 <tr>
 <td colspan="2" class="thead"><strong>{$lang->newpoints_levels_next_level}</strong>: {$next_level[\'name\']}</td>
 </tr>
@@ -182,23 +183,86 @@ function newpoints_levels_activate()
 </tr>
 <tr>
 <td class="trow2"><strong>{$lang->newpoints_levels_leveled_up_title}:</strong></td>
-<td class="trow2"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup">Level up</a></td>
+<td class="trow2"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup&amp;return_to=profile">{$lang->newpoints_levels_level_up}</a></td>
 </tr>
 </table>');
+
+    newpoints_add_template('newpoints_levels_row', '<tr>
+<td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
+<td class="{$bgcolor}" width="42%">{$level[\'name\']}<br /><span class="smalltext">{$level[\'description\']}<span></td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price\']}</td>
+<td class="{$bgcolor}" width="16%" align="center"></td>
+</tr>');
+    newpoints_add_template('newpoints_levels_current_level_row', '<tr>
+<td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
+<td class="{$bgcolor}" width="42%">{$level[\'name\']} <span class="smalltext">[Current Level]</span><br />
+<span class="smalltext">{$level[\'description\']}<span></td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price\']}</td>
+<td class="{$bgcolor}" width="16%" align="center"></td>
+</tr>');
+    newpoints_add_template('newpoints_levels_next_level_row', '<tr>
+<td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
+<td class="{$bgcolor}" width="42%">{$level[\'name\']} <span class="smalltext">[Next Level]</span><br />
+<span class="smalltext">{$level[\'description\']}<span></td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price\']}</td>
+<td class="{$bgcolor}" width="16%" align="center"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup&amp;return_to=newpoints">{$lang->newpoints_levels_level_up}</a></td>
+</tr>');
+    newpoints_add_template('newpoints_levels_empty', '<tr>
+<td class="trow1" width="100%" colspan="3">{$lang->newpoints_levels_empty}</td>
+</tr>');
+    newpoints_add_template('newpoints_levels', '<html>
+<head>
+<title>{$lang->newpoints_levels_title} - {$lang->newpoints}</title>
+{$headerinclude}
+</head>
+<body>
+{$header}
+<table width="100%" border="0" align="center">
+<tr>
+<td valign="top" width="180">
+<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+<tr>
+<td class="thead"><strong>{$lang->newpoints_menu}</strong></td>
+</tr>
+{$options}
+</table>
+</td>
+<td valign="top">
+{$inline_errors}
+
+<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+<tr>
+<td class="thead" colspan="5"><strong>{$lang->newpoints_levels_title}</strong></td>
+</tr>
+<tr>
+<td class="tcat" width="21%"><strong>{$lang->newpoints_levels_icon}</strong></td>
+<td class="tcat" width="42%"><strong>{$lang->newpoints_levels_name}</strong></td>
+<td class="tcat" width="21%" align="center"><strong>{$lang->newpoints_levels_price}</strong></td>
+<td class="tcat" width="16%" align="center"><strong>{$lang->newpoints_levels_actions}</strong></td>
+</tr>
+{$levels}
+</table>
+<br />
+</td>
+</tr>
+</table>
+{$footer}
+</body>
+</html>');
 
     require_once MYBB_ROOT."inc/adminfunctions_templates.php";
-    find_replace_templatesets("member_profile", '#'.preg_quote('{$contact_details}').'#', '{$newpoints_levels_current_level}'.'{$newpoints_levels_next_level}'.'{$contact_details}');
+    find_replace_templatesets("member_profile", '#'.preg_quote('{$contact_details}').'#', '{$newpoints_levels_profile_current_level}'.'{$newpoints_levels_profile_next_level}'.'{$contact_details}');
 }
 
 function newpoints_levels_deactivate()
 {
     global $db, $mybb;
 
-    newpoints_remove_templates("'newpoints_levels_current_level','newpoints_levels_next_level','newpoints_levels_current_level_not_enrolled','newpoints_levels_next_level_not_enrolled'");
+    newpoints_remove_templates("'newpoints_levels_profile_current_level','newpoints_levels_profile_next_level','newpoints_levels_profile_current_level_not_enrolled','newpoints_levels_profile_next_level_not_enrolled','newpoints_levels_row','newpoints_levels_current_level_row','newpoints_levels_next_level_row','newpoints_levels_empty','newpoints_levels'");
 
     require_once MYBB_ROOT."inc/adminfunctions_templates.php";
-    find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_current_level}').'#', '', 0);
-    find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_next_level}').'#', '', 0);
+    find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_profile_current_level}').'#', '', 0);
+    find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_profile_next_level}').'#', '', 0);
 }
 
 function newpoints_levels_admin_newpoints_menu(&$sub_menu)
@@ -207,6 +271,17 @@ function newpoints_levels_admin_newpoints_menu(&$sub_menu)
 
     newpoints_lang_load('newpoints_levels');
     $sub_menu[] = array('id' => 'levels', 'title' => $lang->newpoints_levels, 'link' => 'index.php?module=newpoints-levels');
+}
+
+function newpoints_levels_menu(&$menu)
+{
+    global $mybb, $lang;
+    newpoints_lang_load("newpoints_levels");
+
+    if ($mybb->input['action'] == 'levels')
+        $menu[] = "&raquo; <a href=\"{$mybb->settings['bburl']}/newpoints.php?action=levels\">".$lang->newpoints_levels_title."</a>";
+    else
+        $menu[] = "<a href=\"{$mybb->settings['bburl']}/newpoints.php?action=levels\">".$lang->newpoints_levels_title."</a>";
 }
 
 function newpoints_levels_admin_newpoints_action_handler(&$actions)
@@ -500,7 +575,6 @@ function newpoints_levels_admin()
                 $table->construct_row();
             }
 
-
             if ($table->num_rows() == 0)
             {
                 $table->construct_cell($lang->newpoints_levels_no_levels, array('colspan' => 5));
@@ -584,10 +658,10 @@ function newpoints_levels_profile_lang()
 
 function newpoints_levels_profile()
 {
-    global $mybb, $lang, $db, $memprofile, $templates, $newpoints_levels_current_level, $newpoints_levels_next_level, $theme;
+    global $mybb, $lang, $db, $memprofile, $templates, $newpoints_levels_profile_current_level, $newpoints_levels_profile_next_level, $theme;
 
-    $newpoints_levels_current_level = '';
-    $newpoints_levels_next_level = '';
+    $newpoints_levels_profile_current_level = '';
+    $newpoints_levels_profile_next_level = '';
 
     /*if ($mybb->settings['newpoints_levels_current_levelprofile'] == 0)
     {
@@ -626,20 +700,20 @@ function newpoints_levels_profile()
 
     if ($current_level['visible'] == '1')
     {
-        $template = "newpoints_levels_current_level";
+        $template = "newpoints_levels_profile_current_level";
         if (empty($memprofile['newpoints_level'])) {
             $template .= '_not_enrolled';
         }
-        eval("\$newpoints_levels_current_level = \"".$templates->get($template)."\";");
+        eval("\$newpoints_levels_profile_current_level = \"".$templates->get($template)."\";");
     }
 
     if ($next_level['visible'] == '1')
     {
-        $template = "newpoints_levels_next_level";
+        $template = "newpoints_levels_profile_next_level";
         if (empty($memprofile['newpoints_level'])) {
             $template .= '_not_enrolled';
         }
-        eval("\$newpoints_levels_next_level = \"".$templates->get($template)."\";");
+        eval("\$newpoints_levels_profile_next_level = \"".$templates->get($template)."\";");
     }
 }
 
@@ -652,26 +726,32 @@ function newpoints_levels_page()
 
     newpoints_lang_load("newpoints_levels");
 
+    $current_level = ['lid' => -1, 'disporder' => 0, 'icon' => 'images/newpoints/default.png'];
+    if (!empty($mybb->user['newpoints_level']))
+    {
+        $lid = intval($mybb->user['newpoints_level']);
+        $current_level = $db->fetch_array($db->simple_select('newpoints_levels', '*', "lid = $lid"));
+        if (empty($current_level['icon']))
+        {
+            $current_level['icon'] = 'images/newpoints/default.png';
+        }
+    }
+
+    $next_level = $db->fetch_array($db->simple_select('newpoints_levels', '*', "disporder > {$current_level['disporder']}", array('order_by' => 'disporder', 'order_dir' => 'ASC', 'limit' => '1')));
+    if (!$next_level)
+    {
+        $next_level = ['lid' => -1, 'disporder' => 0, 'icon' => 'images/newpoints/default.png'];
+    }
+    if (empty($next_level['icon']))
+    {
+        $next_level['icon'] = 'images/newpoints/default.png';
+    }
+
+    $plugins->run_hooks("newpoints_levels_start");
+
     if ($mybb->input['action'] == "do_levelup")
     {
         $plugins->run_hooks("newpoints_levels_level_up_start");
-
-        $current_level = ['disporder' => 0, 'icon' => 'images/newpoints/default.png'];
-        if (!empty($mybb->user['newpoints_level']))
-        {
-            $lid = intval($mybb->user['newpoints_level']);
-            $current_level = $db->fetch_array($db->simple_select('newpoints_levels', '*', "lid = $lid"));
-            if (empty($current_level['icon']))
-            {
-                $current_level['icon'] = 'images/newpoints/default.png';
-            }
-        }
-
-        $next_level = $db->fetch_array($db->simple_select('newpoints_levels', '*', "disporder > {$current_level['disporder']}", array('order_by' => 'disporder', 'order_dir' => 'ASC', 'limit' => '1')));
-        if (empty($next_level['icon']))
-        {
-            $next_level['icon'] = 'images/newpoints/default.png';
-        }
 
         if ($next_level['visible'] == 0)
             error_no_permission();
@@ -736,6 +816,56 @@ function newpoints_levels_page()
         // log purchase
         newpoints_log('levels_level_up', $lang->sprintf($lang->newpoints_levels_leveled_log, $next_level['lid'], $next_level['price']));
 
-        redirect(get_profile_link($mybb->user['uid']), $lang->newpoints_levels_leveled_up, $lang->newpoints_levels_leveled_up_title);
+        if ($mybb->input['return_to'] == 'profile') {
+            redirect(get_profile_link($mybb->user['uid']), $lang->newpoints_levels_leveled_up, $lang->newpoints_levels_leveled_up_title);
+        } else /* if ($mybb->input['return_to'] == 'newpoints') */ {
+            redirect('newpoints.php?action=levels', $lang->newpoints_levels_leveled_up, $lang->newpoints_levels_leveled_up_title);
+        }
     }
+    else if ($mybb->input['action'] == "levels")
+    {
+        $levels = '';
+
+        // Show levels
+        $query = $db->simple_select('newpoints_levels', 'lid,name,description,price,icon,disporder', 'visible = 1', array('order_by' => 'disporder', 'order_dir' => 'ASC'));
+        while ($level = $db->fetch_array($query))
+        {
+            $bgcolor = alt_trow();
+
+            if (empty($level['icon']))
+            {
+                $level['icon'] = 'images/newpoints/default.png';
+            }
+            $level['price'] = newpoints_format_points($level['price']);
+
+            if ($level['lid'] == $current_level['lid'])
+            {
+                eval("\$levels .= \"".$templates->get('newpoints_levels_current_level_row')."\";");
+            }
+            else if ($level['lid'] == $next_level['lid'])
+            {
+                eval("\$levels .= \"".$templates->get('newpoints_levels_next_level_row')."\";");
+            }
+            else
+            {
+                eval("\$levels .= \"".$templates->get('newpoints_levels_row')."\";");
+            }
+        }
+
+        if (empty($levels))
+        {
+            eval("\$levels = \"".$templates->get('newpoints_levels_empty')."\";");
+        }
+
+        eval("\$page = \"".$templates->get('newpoints_levels')."\";");
+    }
+    else
+    {
+        return;
+    }
+
+    $plugins->run_hooks("newpoints_levels_end");
+
+    // output page
+    output_page($page);
 }
