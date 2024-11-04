@@ -50,6 +50,29 @@ else
     $plugins->add_hook("member_profile_end", "newpoints_levels_profile");
     $plugins->add_hook("member_profile_start", "newpoints_levels_profile_lang");
 }
+
+$plugins->add_hook("newpoints_task_backup_tables", "newpoints_levels_backup");
+
+
+if(defined('THIS_SCRIPT'))
+{
+    global $templatelist;
+
+    if(isset($templatelist))
+    {
+        $templatelist .= ',';
+    }
+
+    if(THIS_SCRIPT== 'newpoints.php' && $mybb->input['action'] == 'levels')
+    {
+        $templatelist .= 'newpoints_levels_row,newpoints_levels_current_level_row,newpoints_levels_next_level_row,newpoints_levels_empty,newpoints_levels';
+    }
+    elseif(THIS_SCRIPT== 'member.php')
+    {
+        $templatelist .= 'newpoints_levels_profile_current_level,newpoints_levels_profile_next_level,newpoints_levels_profile_current_level_not_enrolled,newpoints_levels_profile_next_level_not_enrolled';
+    }
+}
+
 function newpoints_levels_info()
 {
     return array(
@@ -263,6 +286,14 @@ function newpoints_levels_deactivate()
     require_once MYBB_ROOT."inc/adminfunctions_templates.php";
     find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_profile_current_level}').'#', '', 0);
     find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_profile_next_level}').'#', '', 0);
+}
+
+// backup the subscriptions table too
+function newpoints_levels_backup(&$backup_fields)
+{
+    global $db, $table, $tables;
+
+    $tables[] = TABLE_PREFIX.'newpoints_levels';
 }
 
 function newpoints_levels_admin_newpoints_menu(&$sub_menu)
