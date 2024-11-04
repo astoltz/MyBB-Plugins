@@ -43,5 +43,7 @@ $l['newpoints_levels_icon'] = 'Icon';
 $l['newpoints_levels_name'] = 'Name';
 $l['newpoints_levels_description'] = 'Description';
 $l['newpoints_levels_price'] = 'Price';
+$l['newpoints_levels_needed'] = 'Needed';
 $l['newpoints_levels_actions'] = 'Actions';
 $l['newpoints_levels_empty'] = 'There are no levels to show at this time.';
+$l['newpoints_levels_percentage'] = 'Percentage';

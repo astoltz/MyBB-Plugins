@@ -182,6 +182,28 @@ function newpoints_levels_activate()
 </tr>
 <tr>
 <td class="trow2"><strong>{$lang->newpoints_levels_leveled_up_title}:</strong></td>
+<td class="trow2">-</td>
+</tr>
+</table>');
+
+    newpoints_add_template('newpoints_levels_profile_next_level_not_enough', '<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+<tr>
+<td colspan="2" class="thead"><strong>{$lang->newpoints_levels_next_level}</strong>: {$next_level[\'name\']}</td>
+</tr>
+<tr>
+<td class="trow1"><strong>{$lang->newpoints_levels_level_description}:</strong></td>
+<td class="trow1">{$next_level[\'description\']}</td>
+</tr>
+<tr>
+<td class="trow2"><strong>{$lang->newpoints_levels_level_icon}:</strong></td>
+<td class="trow2"><img src="{$mybb->settings[\'bburl\']}/{$next_level[\'icon\']}" width="300"></td>
+</tr>
+<tr>
+<td class="trow1"><strong>{$lang->newpoints_levels_level_icon}:</strong></td>
+<td class="trow1">{$next_level[\'price\']}</td>
+</tr>
+<tr>
+<td class="trow2"><strong>{$lang->newpoints_levels_leveled_up_title}:</strong></td>
 <td class="trow2"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup&amp;return_to=profile">Level up</a></td>
 </tr>
 </table>');
@@ -213,22 +235,33 @@ function newpoints_levels_activate()
     newpoints_add_template('newpoints_levels_row', '<tr>
 <td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
 <td class="{$bgcolor}" width="42%">{$level[\'name\']}<br /><span class="smalltext">{$level[\'description\']}<span></td>
-<td class="{$bgcolor}" width="21%" align="center">{$level[\'price\']}</td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price_display\']}</td>
 <td class="{$bgcolor}" width="16%" align="center"></td>
 </tr>');
     newpoints_add_template('newpoints_levels_current_level_row', '<tr>
 <td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
 <td class="{$bgcolor}" width="42%">{$level[\'name\']} <span class="smalltext">[Current Level]</span><br />
 <span class="smalltext">{$level[\'description\']}<span></td>
-<td class="{$bgcolor}" width="21%" align="center">{$level[\'price\']}</td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price_display\']}</td>
 <td class="{$bgcolor}" width="16%" align="center"></td>
 </tr>');
     newpoints_add_template('newpoints_levels_next_level_row', '<tr>
 <td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
 <td class="{$bgcolor}" width="42%">{$level[\'name\']} <span class="smalltext">[Next Level]</span><br />
 <span class="smalltext">{$level[\'description\']}<span></td>
-<td class="{$bgcolor}" width="21%" align="center">{$level[\'price\']}</td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price_display\']}</td>
 <td class="{$bgcolor}" width="16%" align="center"><a href="{$mybb->settings[\'bburl\']}/newpoints.php?action=do_levelup&amp;return_to=newpoints">{$lang->newpoints_levels_level_up}</a></td>
+</tr>');
+    newpoints_add_template('newpoints_levels_next_level_row_not_enough', '<tr>
+<td class="{$bgcolor}" width="21%"><img src="{$mybb->settings[\'bburl\']}/{$level[\'icon\']}" width="300"></td>
+<td class="{$bgcolor}" width="42%">{$level[\'name\']} <span class="smalltext">[Next Level]</span><br />
+<span class="smalltext">{$level[\'description\']}<span></td>
+<td class="{$bgcolor}" width="21%" align="center">{$level[\'price_display\']}</td>
+<td class="{$bgcolor}" width="16%" align="center">[Not enough]<br />
+
+<strong>{$currency}:</strong> <a href="{$mybb->settings[\'bburl\']}/newpoints.php">{$points}</a><br />
+<strong>{$lang->newpoints_levels_price}:</strong> {$level[\'price\']}<br />
+<strong>{$lang->newpoints_levels_needed}:</strong> {$needed}<br /></td>
 </tr>');
     newpoints_add_template('newpoints_levels_empty', '<tr>
 <td class="trow1" width="100%" colspan="3">{$lang->newpoints_levels_empty}</td>
@@ -281,7 +314,7 @@ function newpoints_levels_deactivate()
 {
     global $db, $mybb;
 
-    newpoints_remove_templates("'newpoints_levels_profile_current_level','newpoints_levels_profile_next_level','newpoints_levels_profile_current_level_not_enrolled','newpoints_levels_profile_next_level_not_enrolled','newpoints_levels_row','newpoints_levels_current_level_row','newpoints_levels_next_level_row','newpoints_levels_empty','newpoints_levels'");
+    newpoints_remove_templates("'newpoints_levels_profile_current_level','newpoints_levels_profile_next_level','newpoints_levels_profile_next_level_not_enough','newpoints_levels_profile_current_level_not_enrolled','newpoints_levels_profile_next_level_not_enrolled','newpoints_levels_row','newpoints_levels_current_level_row','newpoints_levels_next_level_row','newpoints_levels_next_level_row_not_enough','newpoints_levels_empty','newpoints_levels'");
 
     require_once MYBB_ROOT."inc/adminfunctions_templates.php";
     find_replace_templatesets("member_profile", '#'.preg_quote('{$newpoints_levels_profile_current_level}').'#', '', 0);
@@ -744,6 +777,10 @@ function newpoints_levels_profile()
         if (empty($memprofile['newpoints_level'])) {
             $template .= '_not_enrolled';
         }
+        else if (floatval($next_level['price']) > floatval($mybb->user['newpoints']))
+        {
+            $template .= '_not_enough';
+        }
         eval("\$newpoints_levels_profile_next_level = \"".$templates->get($template)."\";");
     }
 }
@@ -867,7 +904,11 @@ function newpoints_levels_page()
             {
                 $level['icon'] = 'images/newpoints/default.png';
             }
-            $level['price'] = newpoints_format_points($level['price']);
+            $level['price_display'] = newpoints_format_points($level['price']);
+            $currency = $mybb->settings['newpoints_main_curname'];
+            $points = newpoints_format_points($mybb->user['newpoints']);
+            $needed = newpoints_format_points($level['price'] - $mybb->user['newpoints']);
+            $percentage = my_number_format($mybb->user['newpoints'] / $level['price'] * 100);
 
             if ($level['lid'] == $current_level['lid'])
             {
@@ -875,7 +916,14 @@ function newpoints_levels_page()
             }
             else if ($level['lid'] == $next_level['lid'])
             {
-                eval("\$levels .= \"".$templates->get('newpoints_levels_next_level_row')."\";");
+                if (floatval($next_level['price']) > floatval($mybb->user['newpoints']))
+                {
+                    eval("\$levels .= \"".$templates->get('newpoints_levels_next_level_row_not_enough')."\";");
+                }
+                else
+                {
+                    eval("\$levels .= \"".$templates->get('newpoints_levels_next_level_row')."\";");
+                }
             }
             else
             {
