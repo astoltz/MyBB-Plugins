@@ -16,8 +16,16 @@ if(!defined("IN_MYBB"))
 }
 
 $plugins->add_hook("newpoints_start", "newpoints_lottery_page");
-$plugins->add_hook("newpoints_default_menu", "newpoints_lottery_menu");
-$plugins->add_hook("newpoints_stats_start", "newpoints_lottery_stats");
+
+if (defined("IN_ADMINCP"))
+{
+    $plugins->add_hook("newpoints_admin_maintenance_recount_user_points", "newpoints_lottery_admin_maintenance_recount_user_points");
+}
+else
+{
+    $plugins->add_hook("newpoints_default_menu", "newpoints_lottery_menu");
+    $plugins->add_hook("newpoints_stats_start", "newpoints_lottery_stats");
+}
 
 function newpoints_lottery_info()
 {
@@ -538,4 +546,19 @@ function newpoints_lottery_stats()
 	eval("\$newpoints_lottery_lastwinners = \"".$templates->get('newpoints_lottery_stats')."\";");
 }
 
-?>
+function newpoints_lottery_admin_maintenance_recount_user_points()
+{
+    global $mybb, $db, $lang, $user, $update_points;
+
+    $query = $db->simple_select('newpoints_log', 'data', "action='lottery_ticket' AND uid='{$user['uid']}'");
+    while($ticket = $db->fetch_array($query)) {
+        $data = explode('-', $ticket['data']);
+        $update_points -= $data[1];
+    }
+
+    $query = $db->simple_select('newpoints_log', 'data', "action='lottery_winner' AND uid='{$user['uid']}'");
+    while($winner = $db->fetch_array($query)) {
+        $data = explode('-', $winner['data']);
+        $update_points += $data[2];
+    }
+}

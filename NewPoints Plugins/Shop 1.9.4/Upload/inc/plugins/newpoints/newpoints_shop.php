@@ -47,6 +47,7 @@ if (defined("IN_ADMINCP"))
 	$plugins->add_hook("newpoints_admin_grouprules_edit", "newpoints_shop_admin_rule");
 	$plugins->add_hook("newpoints_admin_grouprules_add_insert", "newpoints_shop_admin_rule_post");
 	$plugins->add_hook("newpoints_admin_grouprules_edit_update", "newpoints_shop_admin_rule_post");
+	$plugins->add_hook("newpoints_admin_maintenance_recount_user_points", "newpoints_shop_admin_maintenance_recount_user_points");
 }
 else
 {
@@ -2367,4 +2368,19 @@ function newpoints_shop_admin_rule_post(&$array)
 	$array['items_rate'] = floatval($mybb->input['items_rate']);
 }
 
-?>
+function newpoints_shop_admin_maintenance_recount_user_points()
+{
+    global $mybb, $db, $lang, $user, $update_points;
+
+    $query = $db->simple_select('newpoints_log', 'data', "action='shop_purchase' AND uid='{$user['uid']}'");
+    while($purchase = $db->fetch_array($query)) {
+        $data = explode('-', $purchase['data']);
+        $update_points -= $data[1];
+    }
+
+    $query = $db->simple_select('newpoints_log', 'data', "action='shop_sell' AND uid='{$user['uid']}'");
+    while($purchase = $db->fetch_array($query)) {
+        $data = explode('-', $purchase['data']);
+        $update_points += $data[1];
+    }
+}

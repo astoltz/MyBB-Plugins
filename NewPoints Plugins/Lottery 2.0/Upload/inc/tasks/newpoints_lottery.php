@@ -9,9 +9,29 @@
  *
  ***************************************************************************/
 
+// Copied from inc/plugins/newpoints/newpoints_lottery.php
+function newpoints_lottery_money()
+{
+    global $mybb, $cache;
+
+    $money = (float)$mybb->settings['newpoints_lottery_win'];
+
+    if($mybb->settings['newpoints_lottery_usepot'] == 1)
+    {
+        $pot = $cache->read('lottery_pot');
+        if(!empty($pot))
+            $money += (float)$pot[0];
+    }
+
+    return $money;
+}
+
 function task_newpoints_lottery($task)
 {
-	global $mybb, $db, $lang, $cache;
+    global $mybb, $db, $lang, $cache;
+
+    // Load language
+    newpoints_lang_load('newpoints_lottery');
 
 	$db->update_query('tasks', array('locked' => 0), 'tid=18');
 
@@ -31,9 +51,6 @@ function task_newpoints_lottery($task)
 
 				// We've found a winner, time to give some points to the user (on shutdown)
 				newpoints_addpoints($winner_ticket['uid'], $points, 1, 1, false, true);
-
-				// Load language
-				newpoints_lang_load('newpoints_lottery');
 
 				// get winner username
 				$username = $db->fetch_field($db->simple_select('users', 'username', 'uid=\''.intval($winner_ticket['uid']).'\''), 'username');
